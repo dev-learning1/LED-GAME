@@ -1,6 +1,6 @@
 # LED-GAME
-ATMEGA128를 활용한 LED GAME
-5개를 맞추면 level 2로 넘어감 => 속도 증가
+ATMEGA128를 활용한 LED GAME<br/>
+5개를 맞추면 level 2로 넘어감 => 속도 증가<br/>
 기회는 20번!!
 
 ### 시연영상
