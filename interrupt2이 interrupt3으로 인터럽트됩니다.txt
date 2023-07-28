@@ -1,0 +1,101 @@
+//다중버튼으로 LED 패턴 변화
+#define F_CPU 16000000L
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+
+volatile int n = 0;
+
+//입출력 설정
+void init_DDR()
+{
+	DDRB = 0xFF;
+	DDRD  = 0x00;
+}
+
+//입터럽트 설정
+void init_interrupt()
+{
+	
+	EICRA = 0xFF;
+	EIMSK = 0x0F;
+	sei();
+}
+
+//ext_int_n 함수 4개는 각각의 인터럽트가 발생할 때 실행되는 LED 패턴.
+void ext_int_0()
+{
+	PORTB = 0x00;
+	_delay_ms(1000);
+	PORTB = 0xFF;
+	_delay_ms(1000);
+}
+
+void ext_int_1()
+{
+	PORTB = 0x00;
+	_delay_ms(500);
+	PORTB = 0xFF;
+	_delay_ms(500);
+
+}
+
+void ext_int_2()
+{
+	PORTB = 0x00;
+	_delay_ms(1500);
+	PORTB = 0xFF;
+	_delay_ms(1500);
+}
+
+void ext_int_3()
+{
+	PORTB = 0x00;
+	_delay_ms(50);
+	PORTB = 0xFF;
+	_delay_ms(50);
+}
+
+ISR(INT0_vect)
+{
+	n=0;
+}
+ISR(INT1_vect)
+{
+	n=1;
+}
+ISR(INT2_vect)
+{
+	n=2;
+}
+ISR(INT3_vect)
+{
+	n=3;
+}
+
+int main(){
+	init_DDR();
+	init_interrupt();	
+	
+	char buff[10]="";
+	
+	while(1){
+		
+		switch(n){
+			case 0 :
+				ext_int_0();
+				break;
+			case 1 :
+				ext_int_1();
+				break;
+			case 2 :
+				ext_int_2();
+				break;
+			case 3 :
+				ext_int_3();
+				break;
+			
+		}
+	}
+	return 0;
+}
